@@ -15,7 +15,10 @@ const LINKS = [
 // you can point it at a deployed server later without touching this file
 // — see VITE_CONTACT_API_URL in the project's .env (copy .env.example).
 
-const API_URL = import.meta.env.VITE_CONTACT_API_URL || "http://localhost:5000/api/contact";
+
+// const API_URL = import.meta.env.VITE_CONTACT_API_URL || "http://localhost:5000/api/contact";
+
+
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -38,52 +41,112 @@ export default function Contact() {
 
   // ADDED: sends the form to the backend (../backend/server.js) which emails
   // it to you via Nodemailer. See backend/README.md for setup.
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validate()) return;
 
-    setStatus("sending");
-    setServerError("");
 
-    // ADDED: abort the request if it takes too long (e.g. backend not
-    // running, or a slow SMTP failure) so the button never gets stuck
-    // on "Sending…" forever.
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
 
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-        signal: controller.signal,
-      });
-      const data = await res.json().catch(() => ({}));
 
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Something went wrong sending your message.");
-      }
 
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!validate()) return;
+
+  setStatus("sending");
+  setServerError("");
+
+  const formData = new FormData();
+
+  // formData.append("access_key", "YOUR_WEB3FORMS_ACCESS_KEY");
+
+  formData.append(
+  "access_key",
+  import.meta.env.VITE_WEB3FORMS_KEY
+);
+
+  formData.append("name", form.name);
+  formData.append("email", form.email);
+  formData.append("message", form.message);
+
+  formData.append("subject", "New Portfolio Contact");
+
+  try {
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
       setStatus("success");
-      setForm({ name: "", email: "", message: "" });
-    } catch (err) {
-      setStatus("error");
-      // CHANGED: a network-level failure (backend not running, no internet,
-      // CORS, etc.) throws a TypeError whose message is just the browser's
-      // raw "Failed to fetch" — not something a visitor should see. Show a
-      // friendly explanation instead, and only surface the backend's own
-      // message when we actually got one back from the server.
-      setServerError(
-        err.name === "AbortError"
-          ? "That took too long. Please check the backend is running and try again."
-          : err instanceof TypeError
-          ? "Couldn't reach the contact server. Is the backend running?"
-          : err.message || "Couldn't reach the contact server. Is the backend running?"
-      );
-    } finally {
-      clearTimeout(timeout);
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } else {
+      throw new Error(result.message);
     }
-  };
+  } catch (error) {
+    setStatus("error");
+    setServerError(
+      error.message || "Something went wrong. Please try again."
+    );
+  }
+};
+
+
+
+
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!validate()) return;
+
+  //   setStatus("sending");
+  //   setServerError("");
+
+  //   // ADDED: abort the request if it takes too long (e.g. backend not
+  //   // running, or a slow SMTP failure) so the button never gets stuck
+  //   // on "Sending…" forever.
+  //   const controller = new AbortController();
+  //   const timeout = setTimeout(() => controller.abort(), 15000);
+
+  //   try {
+  //     const res = await fetch(API_URL, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(form),
+  //       signal: controller.signal,
+  //     });
+  //     const data = await res.json().catch(() => ({}));
+
+  //     if (!res.ok || !data.success) {
+  //       throw new Error(data.error || "Something went wrong sending your message.");
+  //     }
+
+  //     setStatus("success");
+  //     setForm({ name: "", email: "", message: "" });
+  //   } catch (err) {
+  //     setStatus("error");
+  //     // CHANGED: a network-level failure (backend not running, no internet,
+  //     // CORS, etc.) throws a TypeError whose message is just the browser's
+  //     // raw "Failed to fetch" — not something a visitor should see. Show a
+  //     // friendly explanation instead, and only surface the backend's own
+  //     // message when we actually got one back from the server.
+  //     setServerError(
+  //       err.name === "AbortError"
+  //         ? "That took too long. Please check the backend is running and try again."
+  //         : err instanceof TypeError
+  //         ? "Couldn't reach the contact server. Is the backend running?"
+  //         : err.message || "Couldn't reach the contact server. Is the backend running?"
+  //     );
+  //   } finally {
+  //     clearTimeout(timeout);
+  //   }
+  // };
+
+
 
   return (
     <section id="contact" className="section section--alt contact">
