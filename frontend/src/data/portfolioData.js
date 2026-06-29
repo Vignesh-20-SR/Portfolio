@@ -61,19 +61,19 @@ export const education = [
 export const skillGroups = [
   {
     category: "📊 Data Analytics",
-    items: ["Python", "SQL", "Excel","Power BI", "Tableau"],
+    items: ["🐍 Python", "🗄 SQL", "📊 Excel","📈 Power BI", "📉 Tableau"],
   },
   {
     category: "🤖 AI & Machine Learning",
-    items: ["NumPy","Pandas", "OpenCV", "MediaPipe", "Machine Learning (Basics)"],
+    items: ["🔢 NumPy", "🐼 Pandas", "👁 OpenCV", "✋ MediaPipe", "🤖 Machine Learning"],
   },
   {
     category: "💻 Software Development",
-    items: ["JavaScript","HTML/CSS", "React.js", "Node.js", "REST APIs", "Express.js", "MongoDB"],
+    items: ["🟨 JavaScript", "🌐 HTML", "🎨 CSS", "⚛ React", "🟢 Node.js", "🚀 Express", "🍃 MongoDB"],
   },
   {
     category: "🛠 Tools & Platforms",
-    items: ["Git", "GitHub", "VS Code", "Jupyter Notebook" ],
+    items: ["🌿 Git", "🐙 GitHub", "💙 VS Code", "📓 Jupyter Notebook" ],
   },
   {
     category: "🤝 Soft Skills",
