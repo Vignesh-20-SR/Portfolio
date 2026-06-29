@@ -14,6 +14,7 @@ const LINKS = [
 // mailto: link. The backend's address is configurable via an env var so
 // you can point it at a deployed server later without touching this file
 // — see VITE_CONTACT_API_URL in the project's .env (copy .env.example).
+
 const API_URL = import.meta.env.VITE_CONTACT_API_URL || "http://localhost:5000/api/contact";
 
 export default function Contact() {
