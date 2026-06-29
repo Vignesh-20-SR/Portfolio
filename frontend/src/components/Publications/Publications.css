@@ -1,0 +1,219 @@
+.publications {
+  position: relative;
+}
+
+/* ===========================
+   Publication Card
+=========================== */
+
+.pub-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 28px;
+  background: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.pub-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 80% at 100% 0%,
+    rgba(242, 169, 59, 0.16),
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+/* ===========================
+   Icon
+=========================== */
+
+.pub-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--teal);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.pub-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.pub-body {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===========================
+   Journal Tag
+=========================== */
+
+.pub-journal-tag {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--line-dark);
+  color: var(--muted-dark);
+  margin-bottom: 18px;
+}
+
+/* ===========================
+   Header
+=========================== */
+
+.pub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.pub-title-content {
+  flex: 1;
+}
+
+.pub-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 10px;
+  max-width: 650px;
+}
+
+.pub-header .btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ===========================
+   Meta
+=========================== */
+
+.pub-meta {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--teal);
+  margin: 0;
+}
+
+/* ===========================
+   Description
+=========================== */
+
+.pub-desc {
+  color: var(--muted-dark);
+  font-size: 14.5px;
+  line-height: 1.75;
+  max-width: 700px;
+  margin-bottom: 24px;
+}
+
+/* ===========================
+   Gallery
+=========================== */
+
+.pub-gallery {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.pub-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius-md);
+
+  overflow: hidden;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+
+.pub-photo:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.pub-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media (max-width: 992px) {
+  .pub-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .pub-card {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 28px;
+  }
+
+  .pub-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .pub-title {
+    font-size: 20px;
+  }
+
+  .pub-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .pub-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .pub-title {
+    font-size: 18px;
+  }
+
+  .pub-desc {
+    font-size: 14px;
+  }
+
+  .pub-header .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

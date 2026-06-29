@@ -1,0 +1,270 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  /* CHANGED: removed the opaque `background: var(--ink)` fill — Hero is
+     now transparent like every other section, so the global
+     AnimatedBackground canvas shows through here too, with no seam. */
+  overflow: hidden;
+}
+
+/* CHANGED: .hero-canvas and .hero-vignette rules removed — that visual
+   is now the single global <AnimatedBackground /> (see src/ui/), shared
+   by every section instead of being Hero-only. */
+
+.hero-inner {
+  position: relative;
+  padding-top: 120px;
+  padding-bottom: 80px;
+}
+
+/* ADDED: two-column layout — text content + profile photo */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(32px, 6vw, 72px);
+  align-items: center;
+}
+
+.hero-content { min-width: 0; }
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--muted-dark);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line-dark);
+  padding: 7px 14px 7px 11px;
+  border-radius: 999px;
+  margin-bottom: 28px;
+}
+
+.hero-kicker-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-soft);
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+.hero-name {
+  font-size: clamp(38px, 5.4vw, 66px); /* CHANGED: was clamp(42px, 7.2vw, 86px) — narrower column now */
+  font-weight: 800;
+  color: #fff;
+  max-width: 560px; /* CHANGED: was 920px, column is narrower now */
+  letter-spacing: -0.02em;
+}
+
+.hero-role {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: clamp(14px, 1.6vw, 17px);
+  color: var(--teal);
+  letter-spacing: 0.01em;
+}
+
+.hero-tagline {
+  margin-top: 22px;
+  font-size: clamp(16px, 1.9vw, 19px);
+  color: var(--muted-dark);
+  max-width: 560px;
+  line-height: 1.65;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 38px;
+}
+
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 5vw, 56px);
+  margin-top: 72px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line-dark);
+  max-width: 640px;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-stat-value {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.hero-stat-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted-dark);
+  letter-spacing: 0.02em;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+  transition: color 0.2s var(--ease);
+}
+
+.hero-scroll:hover { color: var(--teal); }
+
+.hero-scroll-line {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(180deg, var(--teal), transparent);
+  animation: scroll-line 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-line {
+  0% { opacity: 0.2; transform: scaleY(0.4); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+  100% { opacity: 0.2; transform: scaleY(0.4); transform-origin: top; }
+}
+
+@media (max-width: 720px) {
+  .hero-inner { padding-top: 110px; padding-bottom: 64px; }
+  .hero-stats { gap: 26px 36px; margin-top: 52px; }
+  .hero-scroll { display: none; }
+}
+
+/* ============================================================
+   ADDED: profile photo + glass contact overlay
+   ============================================================ */
+
+.hero-photo-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-photo {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line-dark);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(135deg, var(--ink-soft), var(--ink-2));
+}
+
+.hero-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Shown automatically if /assets/profile.jpg fails to load */
+.hero-photo-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--ink-soft), var(--ink-2));
+}
+
+.hero-photo-fallback span {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--muted-dark);
+  border: 1px solid var(--line-dark);
+  padding: 10px 16px;
+  border-radius: 999px;
+}
+
+/* Glass-effect overlay pinned to the bottom of the photo */
+.hero-photo-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 10px;
+  padding: 16px;
+  background: rgba(11, 18, 32, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hero-overlay-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 4px;
+  border-radius: 8px;
+  color: var(--muted-dark);
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+  min-width: 0;
+}
+
+.hero-overlay-item:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.hero-overlay-icon {
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.hero-overlay-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 880px) {
+  /* CHANGED: stack to a single column, photo first, text second */
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .hero-content { order: 2; }
+  .hero-photo-wrap { order: 1; }
+  .hero-photo { max-width: 320px; margin: 0 auto; }
+  .hero-name, .hero-tagline { max-width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .hero-overlay-item { font-size: 11.5px; }
+  .hero-photo { max-width: 260px; }
+}

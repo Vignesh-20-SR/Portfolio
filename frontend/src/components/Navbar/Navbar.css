@@ -1,0 +1,170 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 18px 0;
+  transition: padding 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+
+.nav--scrolled {
+  padding: 12px 0;
+  background: rgba(11, 18, 32, 0.78);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+}
+
+.nav-logo-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: linear-gradient(135deg, var(--amber), var(--teal));
+}
+
+.nav-logo-text { text-transform: lowercase; }
+.nav-dot { color: var(--amber); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-link {
+  display: inline-block; /* ADDED: keeps the hover scale below smooth and predictable */
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted-dark);
+  position: relative;
+  padding: 6px 0;
+  /* CHANGED: added transform + text-shadow so the hover pop/glow below animates smoothly */
+  transition: color 0.2s var(--ease), transform 0.25s var(--ease), text-shadow 0.25s var(--ease);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--amber);
+  transition: width 0.25s var(--ease);
+}
+
+/* CHANGED: hover now also scales up slightly (subtle "pop") and adds a
+   soft teal glow, in addition to the existing color + underline change.
+   Kept small (1.08) and soft so it reads as polish, not flashy. */
+.nav-link:hover {
+  color: #fff;
+  transform: scale(1.08);
+  text-shadow: 0 0 14px rgba(52, 214, 196, 0.4);
+}
+.nav-link:hover::after { width: 100%; }
+
+.nav-link--active {
+  color: #fff;
+}
+.nav-link--active::after { width: 100%; }
+
+.nav-resume {
+  margin-left: 8px;
+}
+
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+}
+
+.nav-burger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+
+.nav-burger--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger--open span:nth-child(2) { opacity: 0; }
+.nav-burger--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 880px) {
+  .nav-links {
+    position: fixed;
+    top: 64px;
+    left: 16px;
+    right: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    background: rgba(13, 19, 33, 0.97);
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius-md);
+    padding: 10px;
+    backdrop-filter: blur(14px);
+    transform: translateY(-12px) scale(0.98);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+  }
+
+  .nav-links--open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-link {
+    padding: 12px 10px;
+    border-radius: 8px;
+  }
+  .nav-link::after { display: none; }
+  .nav-link--active, .nav-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .nav-link:hover {
+    /* CHANGED: skip the scale pop in the tightly-packed mobile dropdown —
+       the background highlight above is enough feedback here. */
+    transform: none;
+    text-shadow: none;
+  }
+
+  .nav-resume {
+    margin: 8px 6px 4px;
+    justify-content: center;
+  }
+
+  .nav-burger { display: flex; }
+}

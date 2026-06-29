@@ -1,0 +1,15 @@
+/* ============================================================
+   Fixed full-viewport canvas, sitting behind ALL page content.
+   Same element is shared by every section — this is what makes
+   the network look identical everywhere instead of being a
+   Hero-only effect.
+   ============================================================ */
+
+.animated-bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
